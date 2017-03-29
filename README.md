@@ -7,6 +7,9 @@ While I use these managers in production currently, loading them in this manner 
 
 This documentation is extremely thin. More including examples as I find the time.
 
+# How to Load
+Include `trestian-wp-managers.php` in your plugin root file. Instead of using the `plugins_loaded` action hook to load your plugins depenencies and hook, use the `trestian_wp_managers_loaded` action hook instead. This will ensure that the latest version of the dependencies have been loaded, either from this plugin or another using the same library.
+
 ## Interfaces
 ### Page
 This defines the interface used by the Page Manager, described later.
