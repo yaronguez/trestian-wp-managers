@@ -19,16 +19,19 @@ class Trestian_Page_Manager{
 	 */
 	public $page_containers;
 
-	const ACF_PREFIX = 'HIFOO_';
+	protected $options_prefix;
 
-    /**
-     * Initialize the class and set its properties.
-     *
-     * @since    1.0.0
-     */
-    public function __construct( ) {
+	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @since    1.0.0
+	 *
+	 * @param $options_prefix
+	 */
+    public function __construct($options_prefix ) {
 		$this->pages = array();
 		$this->page_containers = array();
+		$this->options_prefix = $options_prefix;
     }
 
 	/**

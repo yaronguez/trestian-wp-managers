@@ -13,11 +13,20 @@ class Trestian_Page_Container {
 	 */
 	public $page;
 
-	/*
-	 * Dependency inject page
+	/**
+	 * @var string
 	 */
-	public function __construct(ITrestian_Page $page) {
+	protected $prefix;
+
+	/**
+	 * Trestian_Page_Container constructor.
+	 *
+	 * @param ITrestian_Page $page
+	 * @param $prefix string
+	 */
+	public function __construct(ITrestian_Page $page, $prefix) {
 		$this->page = $page;
+		$this->prefix = $prefix;
 	}
 
 	/**
@@ -63,7 +72,7 @@ class Trestian_Page_Container {
 	 */
 	public function create_option_field(){
 		acf_add_local_field(array(
-			'key' => Trestian_Page_Manager::ACF_PREFIX . $this->page->get_option_field_name(),
+			'key' => $this->prefix . '_' . $this->page->get_option_field_name(),
 			'label' => $this->page->get_option_field_label(),
 			'name' => $this->page->get_option_field_name(),
 			'type' => 'post_object',

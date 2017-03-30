@@ -18,7 +18,7 @@ class Trestian_Loader_V1 {
 	 * Path to library
 	 * @var string
 	 */
-	protected $path;
+	protected $plugin_path;
 
 	/**
 	 * Trestian_Loader_V1 constructor.
@@ -26,14 +26,13 @@ class Trestian_Loader_V1 {
 	 * @param $root_file
 	 */
 	public function __construct($root_file) {
-		$this->path = plugin_dir_path($root_file);
+		$this->plugin_path = plugin_dir_path($root_file);
 	}
 
 	/**
 	 * Load all of the dependencies
 	 */
 	public function load(){
-
 		/**
 		 * If a newer version of Trestian Managers has already been loaded with a lower priority
 		 * then go no further
@@ -51,13 +50,23 @@ class Trestian_Loader_V1 {
 		/**
 		 * Load the files!
 		 */
-		require_once $this->path . 'interfaces/interface-trestian-page.php';
-		require_once $this->path . 'managers/class-trestian-ajax-manager.php';
-		require_once $this->path . 'managers/class-trestian-page-manager.php';
-		require_once $this->path . 'managers/class-trestian-template-manager.php';
-		require_once $this->path . 'models/class-trestian-page.php';
-		require_once $this->path . 'models/class-trestian-page-container.php';
-		require_once $this->path . 'models/class-trestian-plugin-settings.php';
+
+		 // Dice - Dependancy injection. Only load if not loaded elsewhere
+		if(!class_exists('\\Dice\\Dice', false)) {
+			require_once $this->plugin_path . 'libs/Dice.php';
+		}
+		// Kint
+		require_once $this->plugin_path . 'libs/kint/Kint.class.php';
+		// Interfaces
+		require_once $this->plugin_path . 'interfaces/interface-trestian-page.php';
+		// Managers
+		require_once $this->plugin_path . 'managers/class-trestian-ajax-manager.php';
+		require_once $this->plugin_path . 'managers/class-trestian-page-manager.php';
+		require_once $this->plugin_path . 'managers/class-trestian-template-manager.php';
+		// Models
+		require_once $this->plugin_path . 'models/class-trestian-page.php';
+		require_once $this->plugin_path . 'models/class-trestian-page-container.php';
+		require_once $this->plugin_path . 'models/class-trestian-plugin-settings.php';
 
 		/**
 		 * Let everyone know they can now proceed!
