@@ -2,7 +2,7 @@
 /**
  *
  * @link              http://trestian.com
- * @since             1.0.0
+ * @since             1.0.1
  * @package           TrestianWPManagers
  *
  * @wordpress-plugin
@@ -36,7 +36,7 @@ require plugin_dir_path( __FILE__ ) . 'setup/class-trestian-loader.php';
  * Execute the plugin on plugins_loaded with a priority that decrements with
  * each release so the latest release loads first
  */
-$priority = 9999;
+$priority = 9998;
 $trestian_loader = new Trestian_Loader_V1(__FILE__);
 add_action( 'plugins_loaded', array($trestian_loader, 'load'), $priority );
 
