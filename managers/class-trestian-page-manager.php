@@ -19,7 +19,10 @@ class Trestian_Page_Manager{
 	 */
 	public $page_containers;
 
-	protected $options_prefix;
+	/**
+	 * @var Trestian_Plugin_Settings
+	 */
+	protected $settings;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -28,10 +31,10 @@ class Trestian_Page_Manager{
 	 *
 	 * @param $options_prefix
 	 */
-    public function __construct($options_prefix ) {
+    public function __construct(Trestian_Plugin_Settings $settings ) {
 		$this->pages = array();
 		$this->page_containers = array();
-		$this->options_prefix = $options_prefix;
+		$this->settings = $settings;
     }
 
 	/**
@@ -57,7 +60,7 @@ class Trestian_Page_Manager{
 	}
 
 	/**
-	 * Given a class matching the HIFOO page interface, and a page field, configure it for restricting access and displaying content
+	 * Given a class matching the Trestian page interface, and a page field, configure it for restricting access and displaying content
 	 *
 	 * @param ITrestian_Page $page
 	 * @param $page_field
@@ -66,7 +69,7 @@ class Trestian_Page_Manager{
 	 */
     public function setup_page( ITrestian_Page $page){
 		// Create page container for page specific hooks
-    	$page_container = new Trestian_Page_Container($page);
+    	$page_container = new Trestian_Page_Container($page, $this->settings->get_prefix());
 
     	// Register all page hooks
 	    add_action('init', array($page_container, 'create_option_field'));

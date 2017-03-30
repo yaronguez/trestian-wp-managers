@@ -28,18 +28,22 @@ class Trestian_Plugin_Settings {
 	protected $plugin_path;
 
 	/**
-	 * Hifoo_Trestian_Settings constructor.
-	 *
+	 * @var string
+	 */
+	protected $prefix;
+
+	/**
 	 * @param string $plugin_name
 	 * @param string $version
 	 * @param string $plugin_url
 	 * @param string $plugin_path
 	 */
-	public function __construct( $plugin_name, $version, $plugin_url, $plugin_path ) {
+	public function __construct( $plugin_name, $version, $plugin_url, $plugin_path, $prefix ) {
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
 		$this->plugin_url  = $plugin_url;
 		$this->plugin_path = $plugin_path;
+		$this->prefix = $prefix;
 	}
 
 
@@ -69,6 +73,13 @@ class Trestian_Plugin_Settings {
 	 */
 	public function get_plugin_path() {
 		return $this->plugin_path;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_prefix(){
+		return $this->prefix;
 	}
 
 }

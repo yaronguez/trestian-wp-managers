@@ -51,9 +51,11 @@ class Trestian_Template_Manager {
 			$template = locate_template( array( "{$slug}-{$name}.php") );
 		}
 
+		$template_location = trailingslashit(apply_filters('trestian_template_location', 'templates/public/'));
+
 		// Look for plugin's slug-name.php
-		if ( ! $template && $name && file_exists($this->get_path("templates/public/{$slug}-{$name}.php" ) )) {
-			$template = $this->get_path("templates/public/{$slug}-{$name}.php");
+		if ( ! $template && $name && file_exists($this->get_path("{$template_location}{$slug}-{$name}.php" ) )) {
+			$template = $this->get_path("{$template_location}{$slug}-{$name}.php");
 		}
 
 		// If template file doesn't exist, look in yourtheme/slug.php
@@ -62,7 +64,7 @@ class Trestian_Template_Manager {
 		}
 
 		// Allow 3rd party plugins to filter template file from their plugin.
-		$template = apply_filters( 'hifoo_get_template_part', $template, $name );
+		$template = apply_filters( 'trestian_get_template_part', $template, $name );
 
 		if ( !$template ) {
 			return;
@@ -106,8 +108,9 @@ class Trestian_Template_Manager {
 		require($this->get_path($path));
 	}
 
-	public function messages($success = null, $error=null ){
-		$this->load_template('templates/public/content-wb-messages.php', array(
+	public function messages($success = null, $error=null){
+		$path = apply_filters('trestian_messages_template_path', 'templates/public/content-trestian-messages.php');
+		$this->load_template($path, array(
 			'success'=>$success,
 			'error'=>$error
 		));

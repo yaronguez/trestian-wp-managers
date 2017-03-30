@@ -33,7 +33,7 @@ abstract class Trestian_Page implements ITrestian_Page{
 	protected $vm;
 
 	/**
-	 * @var Hifoo_Template_Manager
+	 * @var Trestian_Template_Manager
 	 */
 	protected $template_manager;
 
@@ -45,7 +45,7 @@ abstract class Trestian_Page implements ITrestian_Page{
 	 */
 	protected $template;
 
-	public function __construct(Hifoo_Template_Manager $template_manager) {
+	public function __construct(Trestian_Template_Manager $template_manager) {
 		$this->template_manager = $template_manager;
 		$this->vm = array(
 			'success'=>null,
