@@ -49,9 +49,6 @@ class Trestian_Page_Manager{
 	 * @param ITrestian_Page $page
 	 */
     public function add_page( ITrestian_Page $page){
-	    // Set Page ID
-	    $this->set_page_id($page);
-
 	    // Append to list of pages indexed by option field name
     	$this->pages[$page->get_option_field_name()] = $page;
     }
@@ -74,6 +71,10 @@ class Trestian_Page_Manager{
 	 * @return Trestian_Page_Container
 	 */
     public function setup_page( ITrestian_Page $page){
+	    // Set Page ID
+	    $page_id = $this->options_manager->get_option_value($page->get_option_field_name(), -1);
+	    $page->set_page_id($page_id);
+
 		// Create page container for page specific hooks
     	$page_container = new Trestian_Page_Container($page, $this->options_manager);
 
@@ -86,16 +87,5 @@ class Trestian_Page_Manager{
 
 	    return $page_container;
 	}
-
-	protected function set_page_id( ITrestian_Page $page){
-		// Fetch the page ID using the page field from options
-    	$page_id = $this->options_manager->get_option_value($page->get_option_field_name());
-
-		// is_page(null) and is_page(0) returns true for some odd reason so default these to -1 to be safe
-		$page_id = is_null($page_id) ? -1 : $page_id;
-		$page->set_page_id($page_id);
-	}
-
-
 }
 

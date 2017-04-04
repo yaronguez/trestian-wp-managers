@@ -22,8 +22,12 @@ class Trestian_Acf_Manager implements ITrestian_Options_Manager {
 	 *
 	 * @return mixed
 	 */
-	public function get_option_value( $key ) {
-		return get_field($key, 'options');
+	public function get_option_value( $key, $default=null ) {
+		$value = get_field($key, 'options');
+		if(is_null($value) && !is_null($default)){
+			return $default;
+		}
+		return $value;
 	}
 
 	/**

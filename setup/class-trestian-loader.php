@@ -65,6 +65,7 @@ class Trestian_Loader_V103 {
 		require_once $this->plugin_path . 'managers/class-trestian-page-manager.php';
 		require_once $this->plugin_path . 'managers/class-trestian-template-manager.php';
 		require_once $this->plugin_path . 'managers/class-trestian-acf-manager.php';
+		require_once $this->plugin_path . 'managers/class-trestian-cmb2-manager.php';
 		// Models
 		require_once $this->plugin_path . 'models/class-trestian-page.php';
 		require_once $this->plugin_path . 'models/class-trestian-page-container.php';

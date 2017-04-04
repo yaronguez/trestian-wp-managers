@@ -12,7 +12,7 @@ interface ITrestian_Options_Manager {
 	 *
 	 * @return mixed
 	 */
-	public function get_option_value($key);
+	public function get_option_value($key, $default);
 
 	/**
 	 * @param ITrestian_Page $page;
