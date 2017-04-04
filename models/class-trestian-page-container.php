@@ -14,9 +14,9 @@ class Trestian_Page_Container {
 	public $page;
 
 	/**
-	 * @var string
+	 * @var ITrestian_Options_Manager
 	 */
-	protected $prefix;
+	protected $options_manager;
 
 	/**
 	 * Trestian_Page_Container constructor.
@@ -24,9 +24,9 @@ class Trestian_Page_Container {
 	 * @param ITrestian_Page $page
 	 * @param $prefix string
 	 */
-	public function __construct(ITrestian_Page $page, $prefix) {
+	public function __construct(ITrestian_Page $page, ITrestian_Options_Manager $options_manager) {
 		$this->page = $page;
-		$this->prefix = $prefix;
+		$this->options_manager;
 	}
 
 	/**
@@ -68,18 +68,10 @@ class Trestian_Page_Container {
 	}
 
 	/**
-	 * Register ACF option fields for page
+	 * Register option fields for page
 	 */
 	public function create_option_field(){
-		acf_add_local_field(array(
-			'key' => $this->prefix . '_' . $this->page->get_option_field_name(),
-			'label' => $this->page->get_option_field_label(),
-			'name' => $this->page->get_option_field_name(),
-			'type' => 'post_object',
-			'parent' => $this->page->get_option_group_key(),
-			'post_type' => array('page'),
-			'return_format' => 'id',
-		));
+		$this->options_manager->register_page_option($this->page);
 	}
 
 	/**

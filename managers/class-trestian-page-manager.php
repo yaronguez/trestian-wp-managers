@@ -25,16 +25,22 @@ class Trestian_Page_Manager{
 	protected $settings;
 
 	/**
+	 * @var ITrestian_Options_Manager
+	 */
+	protected $options_manager;
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
 	 *
 	 * @param $options_prefix
 	 */
-    public function __construct(Trestian_Plugin_Settings $settings ) {
+    public function __construct(Trestian_Plugin_Settings $settings, ITrestian_Options_Manager $options_manager ) {
 		$this->pages = array();
 		$this->page_containers = array();
 		$this->settings = $settings;
+		$this->options_manager = $options_manager;
     }
 
 	/**
@@ -69,7 +75,7 @@ class Trestian_Page_Manager{
 	 */
     public function setup_page( ITrestian_Page $page){
 		// Create page container for page specific hooks
-    	$page_container = new Trestian_Page_Container($page, $this->settings->get_prefix());
+    	$page_container = new Trestian_Page_Container($page, $this->options_manager);
 
     	// Register all page hooks
 	    add_action('init', array($page_container, 'create_option_field'));
@@ -83,7 +89,7 @@ class Trestian_Page_Manager{
 
 	protected function set_page_id( ITrestian_Page $page){
 		// Fetch the page ID using the page field from options
-    	$page_id = get_field($page->get_option_field_name(), 'options');
+    	$page_id = $this->options_manager->get_option_value($page->get_option_field_name());
 
 		// is_page(null) and is_page(0) returns true for some odd reason so default these to -1 to be safe
 		$page_id = is_null($page_id) ? -1 : $page_id;
