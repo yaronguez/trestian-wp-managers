@@ -1,11 +1,21 @@
 # Trestian WP Managers
-This a set of helpful managers, interfaces, and models I use in all of my custom WordPress plugins. This is my first attempt at centralizing them in a versioned way that allows them to be added as a library to any plugin without resulting in versioning conflicts.
+This a set of helpful managers, interfaces, and models that Trestian uses in all of our
+custom WordPress plugins. This is a first attempt at centralizing this code 
+such that a developer can use them as a standalone plugin or include them within
+a plugin as library.
 
-I used CMB2 as a guide for versioning.
+To handle cases where multiple plugins include different versions of this libary,
+I used [CMB2](https://github.com/WebDevStudios/CMB2) as a guide to ensure that
+only the latest version is loaded and only once.
 
-While I use these managers in production currently, loading them in this manner is very much a work in progress so be warned. This is also a very opinionated set of managers. I instantiate these managers using Dice, a dependency injection framework for PHP by Tom Butler, using a shared rule which is why there's no singletons in place. I highly recommend Dice.
+While I do use these managers in production, sharing them here is a work in progress. 
+Consider yourself warned. 
 
-This documentation is extremely thin. More including examples as I find the time.
+Note, Trestian WP Managers makes heavy use of [Dice, a dependency injection framework](https://r.je/dice.html)
+ for PHP by Tom Butler. All managers are configured to use a shared instance which is 
+ why there are no singletons in place.
+
+This documentation is extremely thin. More examples will come in as I find the time.
 
 # How to Load
 You can either install Trestian WP Managers as a standard WordPress plugin or 
@@ -34,8 +44,7 @@ injection](https://r.je/dice.html) container for your plugin by calling the func
   * $plugin_url       - The absolute URL to your plugin root folder
   * $plugin_path      - The absolute path to your plugin root folder
   * $prefix           - The unique prefix identifier for options and other identifiers.
-  * string $custom_fields - Which custom fields manager you are using.
- 								'ACF' or 'CMB2'. Defaults to ACF.
+  * string $custom_fields - Which custom fields manager you are using. 'ACF' or 'CMB2'. Defaults to ACF.
   * \Dice\Dice|null $dice - Optionally provide a pre-existing instance of dice
   **/
 ```
