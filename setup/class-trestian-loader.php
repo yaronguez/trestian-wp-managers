@@ -6,13 +6,13 @@
  * and ensure that they will all use the latest version available and only load the dependencies once.
  */
 
-class Trestian_Loader_V102 {
+class Trestian_Loader_V103 {
 	/**
 	 * Current version number
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.0.2';
+	const VERSION = '1.0.3';
 
 	/**
 	 * Path to library
@@ -59,14 +59,18 @@ class Trestian_Loader_V102 {
 		require_once $this->plugin_path . 'libs/kint/Kint.class.php';
 		// Interfaces
 		require_once $this->plugin_path . 'interfaces/interface-trestian-page.php';
+		require_once $this->plugin_path . 'interfaces/interface-trestian-options-manager.php';
 		// Managers
 		require_once $this->plugin_path . 'managers/class-trestian-ajax-manager.php';
 		require_once $this->plugin_path . 'managers/class-trestian-page-manager.php';
 		require_once $this->plugin_path . 'managers/class-trestian-template-manager.php';
+		require_once $this->plugin_path . 'managers/class-trestian-acf-manager.php';
 		// Models
 		require_once $this->plugin_path . 'models/class-trestian-page.php';
 		require_once $this->plugin_path . 'models/class-trestian-page-container.php';
 		require_once $this->plugin_path . 'models/class-trestian-plugin-settings.php';
+		// Functions
+		require_once $this->plugin_path . 'setup/trestian-functions.php';
 
 		/**
 		 * Let everyone know they can now proceed!

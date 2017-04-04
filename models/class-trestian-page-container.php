@@ -26,7 +26,7 @@ class Trestian_Page_Container {
 	 */
 	public function __construct(ITrestian_Page $page, ITrestian_Options_Manager $options_manager) {
 		$this->page = $page;
-		$this->options_manager;
+		$this->options_manager = $options_manager;
 	}
 
 	/**
