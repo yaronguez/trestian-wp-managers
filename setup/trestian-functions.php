@@ -2,13 +2,15 @@
 /**
  * Configure and optionally create an instance of Dice configured for your plugin to work with Trestian WP Managers
  *
- * @param $plugin_name
- * @param $version
- * @param $plugin_url
- * @param $plugin_path
- * @param $prefix
- * @param string $custom_fields - Which custom fields manager you are using. ACF or CMB2. Defaults to ACF.
- * @param \Dice\Dice|null $dice - Instance of dice to configure. If not provided, a new one will be created.
+ * @param $plugin_name      - Your plugin name
+ * @param $version          - Your plugin version
+ * @param $plugin_url       - The absolute URL to your plugin root folder
+ * @param $plugin_path      - The absolute path to your plugin root folder
+ * @param $prefix           - The unique prefix identifier for options and other identifiers.
+ * @param string $custom_fields - Which custom fields manager you are using.
+								'ACF' or 'CMB2'. Defaults to ACF.
+ * @param \Dice\Dice|null $dice - Optionally provide a pre-existing instance of dice
+								to configure. If none is provided, a new one will be created.
  *
  * @return \Dice\Dice|WP_Error
  */
