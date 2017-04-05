@@ -19,6 +19,12 @@ interface ITrestian_Options_Manager {
 	 *
 	 * @return void
 	 */
-	public function register_page_option(ITrestian_Page $page);
+	public function register_page_options(ITrestian_Page $page);
+
+	/**
+	 * Get the action used to register the page options
+	 * @return string
+	 */
+	public function get_register_action();
 
 }

@@ -6,13 +6,13 @@
  * and ensure that they will all use the latest version available and only load the dependencies once.
  */
 
-class Trestian_Loader_V103 {
+class Trestian_Loader_V104 {
 	/**
 	 * Current version number
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.0.3';
+	const VERSION = '1.0.4';
 
 	/**
 	 * Path to library
@@ -70,6 +70,7 @@ class Trestian_Loader_V103 {
 		require_once $this->plugin_path . 'models/class-trestian-page.php';
 		require_once $this->plugin_path . 'models/class-trestian-page-container.php';
 		require_once $this->plugin_path . 'models/class-trestian-plugin-settings.php';
+
 		// Functions
 		require_once $this->plugin_path . 'setup/trestian-functions.php';
 

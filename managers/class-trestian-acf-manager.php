@@ -8,6 +8,7 @@
 
 class Trestian_Acf_Manager implements ITrestian_Options_Manager {
 
+	const REGISTER_ACTION = 'init';
 	/**
 	 * @var Trestian_Plugin_Settings
 	 */
@@ -36,7 +37,7 @@ class Trestian_Acf_Manager implements ITrestian_Options_Manager {
 	 *
 	 * @return void
 	 */
-	public function register_page_option( ITrestian_Page $page) {
+	public function register_page_options( ITrestian_Page $page) {
 		acf_add_local_field(array(
 			'key' => $this->settings->get_prefix(). '_' . $page->get_option_field_name(),
 			'label' => $page->get_option_field_label(),
@@ -46,5 +47,13 @@ class Trestian_Acf_Manager implements ITrestian_Options_Manager {
 			'post_type' => array('page'),
 			'return_format' => 'id',
 		));
+	}
+
+	/**
+	 * Get the action used to register the page options
+	 * @return string
+	 */
+	public function get_register_action() {
+		return self::REGISTER_ACTION;
 	}
 }

@@ -9,6 +9,9 @@ class Trestian_Cmb2_Manager implements ITrestian_Options_Manager {
 
 	const OPTION_KEY = 'cmb2_options';
 
+	const REGISTER_ACTION = 'cmb2_admin_init';
+
+
 	public function __construct(Trestian_Plugin_Settings $settings) {
 		$this->settings = $settings;
 	}
@@ -25,7 +28,11 @@ class Trestian_Cmb2_Manager implements ITrestian_Options_Manager {
 		}
 
 		// Fallback to get_option if CMB2 is not loaded yet.
-		$opts = get_option( $this->settings->get_prefix() . '_cmb2_options', $key, $default );
+		$opts = get_option( $this->settings->get_prefix() . '_' . self::OPTION_KEY );
+		if($opts === false){
+			return $default;
+		}
+
 		$val = $default;
 
 		if ( 'all' == $key ) {
@@ -37,13 +44,14 @@ class Trestian_Cmb2_Manager implements ITrestian_Options_Manager {
 		return $val;
 	}
 
+
 	/**
 	 * Register an option field for a page in ACF
 	 * @param Trestian_Page_Container $page_container
 	 *
 	 * @return void
 	 */
-	public function register_page_option( ITrestian_Page $page) {
+	public function register_page_options( ITrestian_Page $page) {
 		$cmb = new_cmb2_box( array(
 			'id'         => $page->get_option_group_key(),
 			'hookup'     => false,
@@ -56,14 +64,34 @@ class Trestian_Cmb2_Manager implements ITrestian_Options_Manager {
 		) );
 
 		// Set our CMB2 fields
-		$cmb->add_field( array(
+		$field = $cmb->add_field( array(
 			'name' => $page->get_option_field_label(),
 			'desc' => 'Select the page',
-			'id'   => $this->settings->get_prefix(). '_' . $page->get_option_field_name(),
+			'id'   => $page->get_option_field_name(),
 			'type' => 'post_search_text',
 			'post_type'   => 'page',
 			'select_type' => 'radio',
 			'select_behavior' => 'replace'
 		) );
+
+		$cmb = new_cmb2_box( array(
+			'id'         => $page->get_option_group_key(),
+			'hookup'     => false,
+			'cmb_styles' => false,
+			'show_on'    => array(
+				// These are important, don't remove
+				'key'   => 'options-page',
+				'value' => array( $this->settings->get_prefix() . '_' . self::OPTION_KEY )
+			),
+		) );
+	}
+
+
+	/**
+	 * Get the action used to register the page options
+	 * @return string
+	 */
+	public function get_register_action() {
+		return self::REGISTER_ACTION;
 	}
 }

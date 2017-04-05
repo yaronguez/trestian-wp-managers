@@ -68,10 +68,10 @@ class Trestian_Page_Container {
 	}
 
 	/**
-	 * Register option fields for page
+	 * Register page options for this container
 	 */
-	public function create_option_field(){
-		$this->options_manager->register_page_option($this->page);
+	public function register_page_options(){
+		$this->options_manager->register_page_options($this->page);
 	}
 
 	/**

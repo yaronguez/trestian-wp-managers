@@ -79,7 +79,7 @@ class Trestian_Page_Manager{
     	$page_container = new Trestian_Page_Container($page, $this->options_manager);
 
     	// Register all page hooks
-	    add_action('init', array($page_container, 'create_option_field'));
+	    add_action($this->options_manager->get_register_action(), array($page_container, 'register_page_options'));
 	    add_action('template_redirect', array($page_container, 'restrict_page' ));
 	    add_action('the_content', array($page_container, 'display_content'));
 	    add_action('wp_enqueue_scripts', array($page_container, 'load_scripts'));
