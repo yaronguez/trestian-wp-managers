@@ -6,7 +6,7 @@
  * and ensure that they will all use the latest version available and only load the dependencies once.
  */
 
-class Trestian_Loader_V104 {
+class Trestian_Loader_V105 {
 	/**
 	 * Current version number
 	 *
@@ -21,8 +21,6 @@ class Trestian_Loader_V104 {
 	protected $plugin_path;
 
 	/**
-	 * Trestian_Loader_V1 constructor.
-	 *
 	 * @param $root_file
 	 */
 	public function __construct($root_file) {
@@ -77,6 +75,6 @@ class Trestian_Loader_V104 {
 		/**
 		 * Let everyone know they can now proceed!
 		 */
-		do_action('trestian_wp_managers_loaded', $this->version);
+		do_action('trestian_wp_managers_loaded', self::VERSION);
 	}
 }

@@ -97,15 +97,27 @@ class Trestian_Template_Manager {
 	 * Load a template including any data passed in along with an instance of the template manager
 	 * @param $path
 	 * @param array $data
+	 * @param bool $return - whether to return the data or output it
+	 * @return void|string
 	 */
-	public function load_template($path, $data=array()){
+	public function load_template($path, $data=array(), $return=false){
 		// Extract data to be available in template
 		extract($data);
 
 		// Expose the template manager to template
 		$htm = $this;
 
+		// If return is true, capture the output and return it
+		if($return){
+			ob_start();
+		}
+
 		require($this->get_path($path));
+
+		if($return){
+			return ob_get_clean();
+		}
+
 	}
 
 	public function messages($success = null, $error=null){

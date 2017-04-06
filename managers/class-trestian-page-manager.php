@@ -87,5 +87,38 @@ class Trestian_Page_Manager{
 
 	    return $page_container;
 	}
+
+	/**
+	 * Get the Page ID for a given option name field
+	 *
+	 * @param $option_field_name
+	 *
+	 * @return int
+	 */
+	public function get_page_id($option_field_name) {
+    	if(!isset($this->pages[$option_field_name])){
+    		return -1;
+	    } else {
+    		return $this->pages[$option_field_name]->get_page_id();
+	    }
+	}
+
+	/**
+	 * Get the permalink for a page ID, page option field name, or ITrestian_Page object
+	 * @param $page_identifier int | string | ITrestian_Page
+	 *
+	 * @return false|string
+	 */
+	public function get_page_url($page_identifier){
+		if(is_numeric($page_identifier)){
+			$page_id = $page_identifier;
+		} else if($page_identifier instanceof ITrestian_Page){
+			$page_id = $page_identifier->get_page_id();
+		} else {
+			$page_id = $this->get_page_id($page_identifier);
+		}
+
+		return get_permalink($page_id);
+	}
 }
 
