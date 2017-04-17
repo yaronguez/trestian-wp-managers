@@ -83,7 +83,7 @@ abstract class Trestian_Page implements ITrestian_Page{
 	 * Optionally load CSS files on page
 	 */
 	public function load_styles(){
-		// Default is to load no stylesheets
+
 	}
 
 	/**

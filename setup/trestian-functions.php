@@ -52,7 +52,7 @@ function twpm_setup_dice($plugin_name, $version, $plugin_url, $plugin_path, $pre
 	];
 
 	foreach ($managers as $manager){
-		$dice->addRule($manager, [shared=>true]);
+		$dice->addRule($manager, ['shared'=>true]);
 
 	}
 
