@@ -15,6 +15,13 @@ class Trestian_Template_Manager {
 	 */
 	private $settings;
 
+	protected $message_template;
+
+	/**
+	 * @var string
+	 */
+	protected $template_location;
+
 	/**
 	 * Initialize the class and set its properties.
 	 *
@@ -22,8 +29,10 @@ class Trestian_Template_Manager {
 	 *
 	 * @param $settings Trestian_Plugin_Settings
 	 */
-	public function __construct( Trestian_Plugin_Settings $settings) {
-		$this->settings = $settings;
+	public function __construct( Trestian_Plugin_Settings $settings, $message_template = null, $template_path = null) {
+		$this->settings          = $settings;
+		$this->message_template  = is_null($message_template) ? 'templates/public/content-trestian-messages.php' : $message_template;
+		$this->template_location = is_null($template_path) ? 'templates/public/' : trailingslashit($template_path);
 	}
 
 	/**
@@ -36,6 +45,37 @@ class Trestian_Template_Manager {
 		return $this->settings->get_plugin_path(). $path;
 	}
 
+	public function get_template_path($slug, $name=''){
+		$template = '';
+
+		// Look in yourtheme/slug-name.php
+		if ( $name) {
+			$template = locate_template( array( "{$slug}-{$name}.php") );
+		}
+
+		// If not yet found, look in plugin's slug-name.php
+		$template_location = $this->template_location;
+		if ( ! $template && $name && file_exists($this->get_path("{$template_location}{$slug}-{$name}.php" ) )) {
+			$template = $this->get_path("{$template_location}{$slug}-{$name}.php");
+		}
+
+		// If not yet found, look in yourtheme/slug.php
+		if ( ! $template) {
+			$template = locate_template( array( "{$slug}.php") );
+		}
+
+		// If not yet found, look in plugin's slug.php
+		if ( ! $template && file_exists($this->get_path("{$template_location}{$slug}.php" ) )) {
+			$template = $this->get_path("{$template_location}{$slug}.php");
+		}
+
+		// Allow 3rd party plugins to filter template file from their plugin.
+		$template = apply_filters( 'trestian_get_template_part', $template, $name );
+
+		return $template;
+	}
+
+
 	/**
 	 * Load a template part while allowing theme and developers to override it
 	 * Modeled off of WooCommerce
@@ -44,27 +84,7 @@ class Trestian_Template_Manager {
 	 * @param string $name (default: '')
 	 */
 	public function get_template_part( $slug, $name = '', $data=array()) {
-		$template = '';
-
-		// Look in yourtheme/slug-name.php
-		if ( $name) {
-			$template = locate_template( array( "{$slug}-{$name}.php") );
-		}
-
-		$template_location = trailingslashit(apply_filters('trestian_template_location', 'templates/public/'));
-
-		// Look for plugin's slug-name.php
-		if ( ! $template && $name && file_exists($this->get_path("{$template_location}{$slug}-{$name}.php" ) )) {
-			$template = $this->get_path("{$template_location}{$slug}-{$name}.php");
-		}
-
-		// If template file doesn't exist, look in yourtheme/slug.php
-		if ( ! $template) {
-			$template = locate_template( array( "{$slug}.php") );
-		}
-
-		// Allow 3rd party plugins to filter template file from their plugin.
-		$template = apply_filters( 'trestian_get_template_part', $template, $name );
+		$template = $this->get_template_path($slug, $name);
 
 		if ( !$template ) {
 			return;
@@ -121,8 +141,7 @@ class Trestian_Template_Manager {
 	}
 
 	public function messages($success = null, $error=null){
-		$path = apply_filters('trestian_messages_template_path', 'templates/public/content-trestian-messages.php');
-		$this->load_template($path, array(
+		$this->load_template($this->message_template, array(
 			'success'=>$success,
 			'error'=>$error
 		));
