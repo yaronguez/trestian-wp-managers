@@ -7,13 +7,17 @@ class Trestian_Cmb2_Manager implements ITrestian_Options_Manager {
 	 */
 	protected $settings;
 
-	const OPTION_KEY = 'cmb2_options';
+	/**
+	 * @var Trestian_Options
+	 */
+	protected $options;
 
 	const REGISTER_ACTION = 'cmb2_admin_init';
 
 
-	public function __construct(Trestian_Plugin_Settings $settings) {
+	public function __construct(Trestian_Plugin_Settings $settings, Trestian_Options $options) {
 		$this->settings = $settings;
+		$this->options = $options;
 	}
 
 	/**
@@ -24,11 +28,11 @@ class Trestian_Cmb2_Manager implements ITrestian_Options_Manager {
 	public function get_option_value( $key, $default = null) {
 		if ( function_exists( 'cmb2_get_option' ) ) {
 			// Use cmb2_get_option as it passes through some key filters.
-			return cmb2_get_option( $this->settings->get_prefix() . '_' . self::OPTION_KEY, $key, $default );
+			return cmb2_get_option( $this->options->get_cmb2_options_key(), $key, $default );
 		}
 
 		// Fallback to get_option if CMB2 is not loaded yet.
-		$opts = get_option( $this->settings->get_prefix() . '_' . self::OPTION_KEY );
+		$opts = get_option( $this->options->get_cmb2_options_key() );
 		if($opts === false){
 			return $default;
 		}
@@ -59,7 +63,7 @@ class Trestian_Cmb2_Manager implements ITrestian_Options_Manager {
 			'show_on'    => array(
 				// These are important, don't remove
 				'key'   => 'options-page',
-				'value' => array( $this->settings->get_prefix() . '_' . self::OPTION_KEY )
+				'value' => array( $this->options->get_cmb2_options_key())
 			),
 		) );
 
@@ -72,17 +76,6 @@ class Trestian_Cmb2_Manager implements ITrestian_Options_Manager {
 			'post_type'   => 'page',
 			'select_type' => 'radio',
 			'select_behavior' => 'replace'
-		) );
-
-		$cmb = new_cmb2_box( array(
-			'id'         => $page->get_option_group_key(),
-			'hookup'     => false,
-			'cmb_styles' => false,
-			'show_on'    => array(
-				// These are important, don't remove
-				'key'   => 'options-page',
-				'value' => array( $this->settings->get_prefix() . '_' . self::OPTION_KEY )
-			),
 		) );
 	}
 

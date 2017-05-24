@@ -14,11 +14,21 @@
  *
  * @return \Dice\Dice|WP_Error
  */
-function twpm_setup_dice($plugin_name, $version, $plugin_url, $plugin_path, $prefix, $custom_fields = 'ACF', \Dice\Dice $dice = null){
+function twpm_setup_dice($plugin_name, $version, $plugin_url, $plugin_path, $prefix, $custom_fields = 'ACF', \Dice\Dice $dice = null, $options = array()){
 	if(is_null($dice)){
 		$dice = new \Dice\Dice;
 	}
 
+	// Parse optios and defaults
+	$options = wp_parse_args($options, [
+		'cmb2_options_key' => $prefix . '_' . Trestian_Constants::CMB2_OPTIONS_KEY
+	]);
+
+	// Set up options object
+	$dice->addRule('Trestian_Options', [
+		'shared'=>true,
+		'constructParams' => [$options['cmb2_options_key']]
+	]);
 
 	// Configure plugin settings
 	$dice->addRule( 'Trestian_Plugin_Settings', [
@@ -41,6 +51,8 @@ function twpm_setup_dice($plugin_name, $version, $plugin_url, $plugin_path, $pre
 			'instance'=>$options_manager
 		]
 	]]);
+
+
 
 	// Set all Trestian WP Managers as shared instances
 	$managers = [
