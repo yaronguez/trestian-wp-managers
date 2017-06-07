@@ -59,7 +59,7 @@ class Trestian_Ajax_Manager{
 	 */
     public function check_missing_data($field, $message, $sanitize_text = true)
     {
-        if (!isset($_POST[$field])) {
+        if (!isset($_POST[$field]) || !strlen($_POST[$field])) {
             $this->return_error($message);
         } else if($sanitize_text){
         	return sanitize_text_field($_POST[$field]);
@@ -67,5 +67,21 @@ class Trestian_Ajax_Manager{
         else {
             return $_POST[$field];
         }
+    }
+
+	/**
+	 * Helper function to validate nonce in form submission
+	 *
+	 * @param string $nonce_field
+	 * @param string $action_field
+	 * @param string $message
+	 * @return string - action of form
+	 */
+    public function validate_nonce($nonce_field = 'nonce', $action_field = 'action', $message='The form has expired. Please refresh the page and try again'){
+    	if(!isset($_POST[$nonce_field]) || !isset($_POST[$action_field]) || !wp_verify_nonce($_POST[$nonce_field], $_POST[$action_field])){
+    		$this->return_error($message);
+	    }
+
+	    return $_POST[$action_field];
     }
 }
