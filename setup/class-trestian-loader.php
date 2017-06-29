@@ -85,6 +85,7 @@ class Trestian_Loader_V108 {
 		wp_register_script('Trestian_WPM', $this->plugin_url . 'assets/js/trestian-wpm.js', array('jquery', 'jquery-form'), self::VERSION);
 		wp_register_style('Trestian_WPM', $this->plugin_url . 'assets/css/trestian-wpm.css', self::VERSION);
 
+
 		/**
 		 * Let everyone know they can now proceed!
 		 */

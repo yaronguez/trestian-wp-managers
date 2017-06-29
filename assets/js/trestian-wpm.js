@@ -32,13 +32,13 @@ jQuery(document).ready(function($) {
 
     var success = function(response){
         if(!response.hasOwnProperty('success')){
-            $('#twpm-alert-danger').html(genericError('No success in AJAX response')).fadeIn();
+            $('#twpm-alert-error').html(genericError('No success in AJAX response')).fadeIn();
             return false;
         }
         if(!response.success){
             // Operation was not successful.  Display error message or default
             msg = response.message ? response.message : genericError('No error message returned');
-            $('#twpm-alert-danger').html(msg).fadeIn();
+            $('#twpm-alert-error').html(msg).fadeIn();
             return false;
         }
 
@@ -67,13 +67,15 @@ jQuery(document).ready(function($) {
     };
 
     var error = function(errorThrown){
-        $('#twpm-alert-danger').text('An error has occurred.  Please contact support.  Error details: "' + errorThrown + '"').fadeIn();
+        $('#twpm-alert-error').text('An error has occurred.  Please contact support.  Error details: "' + errorThrown + '"').fadeIn();
     };
 
     var ajaxForm = function(form){
         form.prepend('<div id="twpm-alert-success" class="twpm-alert twpm-alert-success"></div><div id="twpm-alert-error" class="twpm-alert twpm-alert-error"></div>');
-        
+
         form.ajaxForm({
+            url: ajaxurl,
+            type: 'POST',
             beforeSubmit: function(arr, f, options){
                 beforeSubmit(form);
             },
