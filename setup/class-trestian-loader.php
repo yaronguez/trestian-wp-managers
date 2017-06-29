@@ -21,10 +21,17 @@ class Trestian_Loader_V108 {
 	protected $plugin_path;
 
 	/**
+	 * URL to library
+	 * @var string
+	 */
+	protected $plugin_url;
+
+	/**
 	 * @param $root_file
 	 */
 	public function __construct($root_file) {
 		$this->plugin_path = plugin_dir_path($root_file);
+		$this->plugin_url = plugin_dir_url($root_file);
 	}
 
 	/**
@@ -73,6 +80,10 @@ class Trestian_Loader_V108 {
 
 		// Functions
 		require_once $this->plugin_path . 'setup/trestian-functions.php';
+
+		// Register JS
+		wp_register_script('Trestian_WPM', $this->plugin_url . 'assets/js/trestian-wpm.js', array('jquery', 'jquery-form'), self::VERSION);
+		wp_register_style('Trestian_WPM', $this->plugin_url . 'assets/css/trestian-wpm.css', self::VERSION);
 
 		/**
 		 * Let everyone know they can now proceed!
