@@ -70,7 +70,16 @@ jQuery(document).ready(function($) {
         $('#twpm-alert-error').text('An error has occurred.  Please contact support.  Error details: "' + errorThrown + '"').fadeIn();
     };
 
-    var ajaxForm = function(form){
+    var ajaxForm = function(form, args){
+        var defaults = {
+            beforeSubmit: function(arr, f, options){},
+            clearForm: false,
+            complete: function(xhr, textStatus){},
+            error: function(xhr, textStatus, errorThrown){},
+            success: function(response){}
+        };
+        args = $.extend(defaults, args);
+
         form.prepend('<div id="twpm-alert-success" class="twpm-alert twpm-alert-success"></div><div id="twpm-alert-error" class="twpm-alert twpm-alert-error"></div>');
 
         form.ajaxForm({
@@ -78,17 +87,21 @@ jQuery(document).ready(function($) {
             type: 'POST',
             beforeSubmit: function(arr, f, options){
                 beforeSubmit(form);
+                args.beforeSubmit(arr, f, options);
             },
-            clearForm: false, // clear form after posting
+            clearForm: args.clearForm, // clear form after posting
             dataType: 'json',
-            complete: function(){
+            complete: function(xhr, textStatus){
                 complete(form);
+                args.complete(xhr, textStatus);
             },
-            error: function(xrh, textStatus, errorThrown){
+            error: function(xhr, textStatus, errorThrown){
                 error(errorThrown);
+                args.error(xhr, textStatus, errorThrown);
             },
             success: function(response ){
                 success(response);
+                args.success(response);
             }
         });
     };
