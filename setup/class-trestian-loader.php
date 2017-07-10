@@ -6,13 +6,13 @@
  * and ensure that they will all use the latest version available and only load the dependencies once.
  */
 
-class Trestian_Loader_V108 {
+class Trestian_Loader_V1011 {
 	/**
 	 * Current version number
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.0.10';
+	const VERSION = '1.0.11';
 
 	/**
 	 * Path to library
@@ -81,14 +81,21 @@ class Trestian_Loader_V108 {
 		// Functions
 		require_once $this->plugin_path . 'setup/trestian-functions.php';
 
-		// Register JS
-		wp_register_script('Trestian_WPM', $this->plugin_url . 'assets/js/trestian-wpm.js', array('jquery', 'jquery-form'), self::VERSION);
-		wp_register_style('Trestian_WPM', $this->plugin_url . 'assets/css/trestian-wpm.css', self::VERSION);
-
+		// Register scripts for loading as dependencies
+		add_action('wp_enqueue_scripts', array($this, 'register_scripts'), 0);
+		add_action('admin_enqueue_scripts', array($this, 'register_scripts'), 0);
 
 		/**
 		 * Let everyone know they can now proceed!
 		 */
 		do_action('trestian_wp_managers_loaded', self::VERSION);
+	}
+
+	/**
+	 * Register scripts for loading as dependencies
+	 */
+	public function register_scripts(){
+		wp_register_script('Trestian_WPM', $this->plugin_url . 'assets/js/trestian-wpm.js', array('jquery', 'jquery-form'), self::VERSION);
+		wp_register_style('Trestian_WPM', $this->plugin_url . 'assets/css/trestian-wpm.css', self::VERSION);
 	}
 }
