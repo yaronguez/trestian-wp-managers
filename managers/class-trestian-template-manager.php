@@ -147,4 +147,13 @@ class Trestian_Template_Manager {
 		));
 	}
 
+	public function parse_content($content){
+		global $wp_embed;
+		$content = $wp_embed->autoembed( $content );
+		$content = $wp_embed->run_shortcode( $content );
+		$content = wpautop( $content );
+		$content = do_shortcode( $content );
+		return $content;
+	}
+
 }
