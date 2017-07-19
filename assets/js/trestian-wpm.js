@@ -11,7 +11,7 @@ jQuery(document).ready(function($) {
     };
 
     var hideAlerts = function(){
-      $('.twpm-alerts').text('').hide();
+      $('.twpm-alert').text('').hide();
     };
 
     var disableFields = function(form){
