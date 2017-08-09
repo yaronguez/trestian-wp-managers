@@ -6,13 +6,13 @@
  * and ensure that they will all use the latest version available and only load the dependencies once.
  */
 
-class Trestian_Loader_V1012 {
+class Trestian_Loader_V1013 {
 	/**
 	 * Current version number
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.0.12';
+	const VERSION = '1.0.13';
 
 	/**
 	 * Path to library

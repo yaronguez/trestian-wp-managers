@@ -9,7 +9,7 @@
  * Plugin Name:         Trestian WP Managers
  * Plugin URI:          https://github.com/yaronguez/trestian-wp-managers
  * Description:         Set of shared libraries and tools for plugin development
- * Version:             1.0.12
+ * Version:             1.0.13
  * Author:              Yaron Guez
  * Author URI:          http://trestian.com
  * License:             GPL-2.0+
@@ -36,9 +36,9 @@ require plugin_dir_path( __FILE__ ) . 'setup/class-trestian-loader.php';
  * Execute the plugin on plugins_loaded with a priority that decrements with
  * each release so the latest release loads first
  */
-$priority = 9994;
-$trestian_loader = new Trestian_Loader_V1012(__FILE__);
-add_action( 'plugins_loaded', array($trestian_loader, 'load'), $priority );
+$priority = 9993;
+$trestian_loader = new Trestian_Loader_V1013(__FILE__);
+add_action( 'init', array($trestian_loader, 'load'), $priority );
 
 
 
