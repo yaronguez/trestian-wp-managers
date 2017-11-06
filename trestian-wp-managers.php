@@ -9,7 +9,7 @@
  * Plugin Name:         Trestian WP Managers
  * Plugin URI:          https://github.com/yaronguez/trestian-wp-managers
  * Description:         Set of shared libraries and tools for plugin development
- * Version:             1.0.16
+ * Version:             1.0.17
  * Author:              Yaron Guez
  * Author URI:          http://trestian.com
  * License:             GPL-2.0+
