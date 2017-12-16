@@ -77,6 +77,8 @@ class Trestian_Loader_V1013 {
 		require_once $this->plugin_path . 'models/class-trestian-plugin-settings.php';
 		require_once $this->plugin_path . 'models/class-trestian-constants.php';
 		require_once $this->plugin_path . 'models/class-trestian-options.php';
+		require_once $this->plugin_path . 'models/class-trestian-options-managers.php';
+		require_once $this->plugin_path . 'models/class-trestian-setup-options.php';
 
 		// Functions
 		require_once $this->plugin_path . 'setup/trestian-functions.php';

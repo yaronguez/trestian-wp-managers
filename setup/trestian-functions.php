@@ -11,48 +11,60 @@
 								'ACF' or 'CMB2'. Defaults to ACF.
  * @param \Dice\Dice|null $dice - Optionally provide a pre-existing instance of dice
 								to configure. If none is provided, a new one will be created.
- *
+ * @deprecated use twpm_setup instead
  * @return \Dice\Dice|WP_Error
  */
-function twpm_setup_dice($plugin_name, $version, $plugin_url, $plugin_path, $prefix, $custom_fields = 'ACF', \Dice\Dice $dice = null, $options = array()){
+function twpm_setup_dice($plugin_name, $version, $plugin_url, $plugin_path, $prefix, $custom_fields = 'ACF', \Dice\Dice $dice = null, $internal_options = array()){
+	$options = new Trestian_Setup_Options();
+	$options->plugin_name = $plugin_name;
+	$options->version = $version;
+	$options->plugin_path = $plugin_path;
+	$options->plugin_url = $plugin_url;
+	$options->prefix = $prefix;
+	$options->custom_fields_manager = $custom_fields;
+	$options->dice = $dice;
+	if(isset($internal_options['cmb2_options_key'])){
+		$options->cmb2_options_key = $internal_options['cmb2_options_key'];
+	}
+	return twpm_setup($options);
+}
+
+/**
+ * @param Trestian_Setup_Options $options
+ *
+ * @return \Dice\Dice
+ */
+function twpm_setup(Trestian_Setup_Options $options){
+	$dice = $options->dice;
 	if(is_null($dice)){
 		$dice = new \Dice\Dice;
 	}
 
-	// Parse optios and defaults
-	$options = wp_parse_args($options, [
-		'cmb2_options_key' => $prefix . '_' . Trestian_Constants::CMB2_OPTIONS_KEY
-	]);
-
-	// Set up options object
+	// Set up internal options object
 	$dice->addRule('Trestian_Options', [
 		'shared'=>true,
-		'constructParams' => [$options['cmb2_options_key']]
+		'constructParams' => [$options->cmb2_options_key]
 	]);
 
 	// Configure plugin settings
 	$dice->addRule( 'Trestian_Plugin_Settings', [
 		'shared' => true,
-		'constructParams' => [$plugin_name, $version, $plugin_url, $plugin_path, $prefix]
+		'constructParams' => [$options->plugin_name, $options->version, $options->plugin_url, $options->plugin_path, $options->prefix]
 	]);
 
 	// Determine Options Manager
-	if($custom_fields == 'ACF') {
-		$options_manager = 'Trestian_Acf_Manager';
-	} else if($custom_fields == 'CMB2') {
-		$options_manager = 'Trestian_Cmb2_Manager';
-	} else {
-		return new WP_Error('invalid_custom_fields_manager', 'Invalid custom fields manager provided. Only ACF or CMB2 are supported.');
+	$options_manager = Trestian_Options_Managers::get_class($options->custom_fields_manager);
+	if(!$options_manager){
+		throw new InvalidArgumentException('Invalid custom fields manager specified');
 	}
 
-	// Set Options Manager
-	$dice->addRule('*', ['substitutions' => [
+	// Set up substitutions with Options Manager
+	$substitutions = array_merge($options->substitutions, [
 		'ITrestian_Options_Manager' => [
 			'instance'=>$options_manager
 		]
-	]]);
-
-
+	]);
+	$dice->addRule('*', ['substitutions' => $substitutions]);
 
 	// Set all Trestian WP Managers as shared instances
 	$managers = [
